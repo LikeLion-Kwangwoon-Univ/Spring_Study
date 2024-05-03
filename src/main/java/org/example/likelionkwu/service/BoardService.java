@@ -8,6 +8,8 @@ import org.example.likelionkwu.repository.BoardRepository;
 import org.example.likelionkwu.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -27,5 +29,17 @@ public class BoardService {
             boardRepository.save(board);
             return true;
         }
+    }
+
+    public List<Board> getAllBoards() {
+        return boardRepository.findAll();
+    }
+
+    public Board getBoardById(Long boardId) {
+        return boardRepository.findById(boardId).orElse(null);
+    }
+
+    public List<Board> getBoardsByUsername(String username) {
+        return boardRepository.findBoardByBoardAuthor(username);
     }
 }
