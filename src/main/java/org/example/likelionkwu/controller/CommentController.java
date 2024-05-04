@@ -1,9 +1,7 @@
 package org.example.likelionkwu.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.likelionkwu.domain.Board;
 import org.example.likelionkwu.domain.Comment;
-import org.example.likelionkwu.dto.BoardResponse;
 import org.example.likelionkwu.dto.CommentRequest;
 import org.example.likelionkwu.dto.CommentResponse;
 import org.example.likelionkwu.service.CommentService;

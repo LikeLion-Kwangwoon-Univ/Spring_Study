@@ -1,7 +1,6 @@
 package org.example.likelionkwu.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.likelionkwu.domain.Board;
 import org.example.likelionkwu.domain.Comment;
 import org.example.likelionkwu.domain.User;
@@ -12,10 +11,8 @@ import org.example.likelionkwu.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
