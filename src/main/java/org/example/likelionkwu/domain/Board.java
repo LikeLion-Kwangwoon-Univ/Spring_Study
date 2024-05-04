@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.likelionkwu.dto.BoardRequest;
 
+import java.util.List;
+
 @Entity(name = "Board")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +27,9 @@ public class Board {
 
     @Column
     private String boardContent;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
 
     public Board(BoardRequest boardRequest) {
         this.boardTitle = boardRequest.getBoardTitle();
