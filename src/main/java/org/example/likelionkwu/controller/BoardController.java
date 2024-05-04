@@ -3,12 +3,14 @@ package org.example.likelionkwu.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.likelionkwu.domain.Board;
 import org.example.likelionkwu.dto.BoardRequest;
+import org.example.likelionkwu.dto.BoardResponse;
 import org.example.likelionkwu.repository.BoardRepository;
 import org.example.likelionkwu.service.BoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/api/board")
@@ -28,32 +30,45 @@ public class BoardController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Board>> getAllBoards() {
+    public ResponseEntity<List<BoardResponse>> getAllBoards() {
         List<Board> boards = boardService.getAllBoards();
+        List<BoardResponse> boardResponse = new ArrayList<>();
+
+        for (Board board : boards) {
+            boardResponse.add(new BoardResponse(board));
+        }
+
         if (boards.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.ok(boards);
+            return ResponseEntity.ok(boardResponse);
         }
     }
 
     @GetMapping("/boardId/{boardId}")
-    public ResponseEntity<Board> getBoardByBoardId(@PathVariable Long boardId) {
+    public ResponseEntity<BoardResponse> getBoardByBoardId(@PathVariable Long boardId) {
         Board board = boardService.getBoardById(boardId);
         if (board == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.ok(board);
         }
+
+        BoardResponse boardResponse = new BoardResponse(board);
+        return ResponseEntity.ok(boardResponse);
     }
 
     @GetMapping("/boardAuthor/{boardAuthor}")
-    public ResponseEntity<List<Board>> getBoardByBoardAuthor(@PathVariable String boardAuthor) {
+    public ResponseEntity<List<BoardResponse>> getBoardByBoardAuthor(@PathVariable String boardAuthor) {
         List<Board> boards = boardRepository.findBoardByBoardAuthor(boardAuthor);
-        if (boards.isEmpty()) {
+        List<BoardResponse> boardResponse = new ArrayList<>();
+
+        for (Board board : boards) {
+            boardResponse.add(new BoardResponse(board));
+        }
+
+        if (boardResponse.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.ok(boards);
+            return ResponseEntity.ok(boardResponse);
         }
     }
 }
