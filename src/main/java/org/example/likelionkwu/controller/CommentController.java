@@ -1,11 +1,18 @@
 package org.example.likelionkwu.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.likelionkwu.domain.Board;
+import org.example.likelionkwu.domain.Comment;
+import org.example.likelionkwu.dto.BoardResponse;
 import org.example.likelionkwu.dto.CommentRequest;
+import org.example.likelionkwu.dto.CommentResponse;
 import org.example.likelionkwu.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequestMapping("/api/board")
 @RequiredArgsConstructor
@@ -21,6 +28,22 @@ public class CommentController {
             return ResponseEntity.ok("댓글 작성 완료");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping("/{boardId}/comment")
+    public ResponseEntity<List<CommentResponse>> getBoardComments(@PathVariable Long boardId) {
+        List<Comment> comments = commentService.getCommentByBoardId(boardId);
+        List<CommentResponse> commentResponses = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            commentResponses.add(new CommentResponse(comment));
+        }
+
+        if (commentResponses.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.ok(commentResponses);
         }
     }
 }

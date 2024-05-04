@@ -11,6 +11,7 @@ import org.example.likelionkwu.repository.CommentRepository;
 import org.example.likelionkwu.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,8 +26,6 @@ public class CommentService {
         String username = commentRequest.getUsername();
         Board board = boardRepository.findByBoardId(boardId);
 
-        log.info(username);
-        log.info(String.valueOf(board.getBoardId()));
         if (username == null) {
             return false;
         } else {
@@ -38,6 +37,10 @@ public class CommentService {
             commentRepository.save(comment);
             return true;
         }
+    }
+
+    public List<Comment> getCommentByBoardId(Long boardId) {
+        return commentRepository.findByBoardBoardId(boardId);
     }
 
 
